@@ -14,7 +14,7 @@ const data = {
         },
         {
             name: 'Adidas Fit shirt',
-            slug: 'nike-fit-shirt',
+            slug: 'adidas-fit-shirt',
             category: 'Shirts',
             image: '/images/p2.jpg',
             price: 250,
