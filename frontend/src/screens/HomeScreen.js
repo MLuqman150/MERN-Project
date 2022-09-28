@@ -6,6 +6,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -14,7 +16,7 @@ const reducer = (state, action) => {
         case 'FETCH_SUCCESS':
             return { ...state, products: action.payload, loading: false };
         case 'FETCH_FAIL':
-            return { ...state, loading: false, erorr: action.payload };
+            return { ...state, loading: false, error: action.payload };
         default:
             return state;
     }
@@ -47,8 +49,8 @@ function HomeScreen() {
         <h1>Featured Products </h1>
         <div className="products">
             {
-                loading ? <div>Loading</div> :
-                    error ? <div>{error}</div> :
+                loading ? <LoadingBox /> :
+                    error ? (<MessageBox variant="danger">{error}</MessageBox>) :
                         <Row>
                             {products.map(product => (
                                 <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
