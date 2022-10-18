@@ -12,7 +12,6 @@ seedRouter.get('/', async (req, res) => {
     await User.remove({});
     const createUsers = await User.insertMany(data.users);
     res.send({ createProducts, createUsers });
-    res.status(200).json({ message: 'ok' });
 });
 
 export default seedRouter;
