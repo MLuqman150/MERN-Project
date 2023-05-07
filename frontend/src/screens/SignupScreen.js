@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { getError } from "../utils";
 
 
-export default function SigninScreen() {
+export default function SignupScreen() {
 
     const navigate = useNavigate();
     const { search } = useLocation();
@@ -18,15 +18,22 @@ export default function SigninScreen() {
     const redirect = redirectInUrl ? redirectInUrl : '/';
 
     const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { userInfo } = state;
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        if (password !== confirmPassword) {
+            toast.error('Password and Confirm Password are not matched');
+            return;
+        }
         try {
-            const { data } = await Axios.post('/api/users/signin', {
+            const { data } = await Axios.post('/api/users/signup', {
+                name,
                 email,
                 password
             });
@@ -47,10 +54,14 @@ export default function SigninScreen() {
     return (
         <Container className="small-container">
             <Helmet>
-                <title>Sign In</title>
+                <title>Sign Up</title>
             </Helmet>
-            <h1 ClassName="my-3">Sign In</h1>
+            <h1 ClassName="my-3">Sign Up</h1>
             <Form onSubmit={submitHandler}>
+                <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control onChange={(e) => setName(e.target.value)} required />
+                </Form.Group>
                 <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="email" required onChange={(e) => setEmail(e.target.value)} />
@@ -59,12 +70,16 @@ export default function SigninScreen() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" required onChange={(e) => setPassword(e.target.value)} />
                 </Form.Group>
+                <Form.Group className="mb-3" controlId="confirmPassword">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control type="password" required onChange={(e) => setConfirmPassword(e.target.value)} />
+                </Form.Group>
                 <div className="mb-3">
-                    <Button type="submit">Sign In</Button>
+                    <Button type="submit">Sign Up</Button>
                 </div>
                 <div className="mb-3">
-                    New Customer? {' '}
-                    <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+                    Already have an account? {' '}
+                    <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
                 </div>
             </Form>
         </Container>
