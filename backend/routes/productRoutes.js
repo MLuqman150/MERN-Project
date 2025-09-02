@@ -1,11 +1,16 @@
 import express from "express";
 import Product from "../models/productModel.js";
+import data from "../data.js"
+
 
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
-    const products = await Product.find();
-    res.send(products);
+    const products = data.products
+//    console.log("Products", products)
+    res.json(products)
+//    const products = await Product.find();
+//    res.send(products);
 })
 
 // For the product page
